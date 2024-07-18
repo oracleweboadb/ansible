@@ -60,6 +60,7 @@
       args:
         executable: /bin/bash
       become: true
+
     - name: Create a oadb volume
       containers.podman.podman_volume:
         state: present
@@ -90,7 +91,7 @@
         state: started
         network: "oracle_network"
         network_aliases:
-          - "oad"
+          - "oadb"
         recreate: true
         generate_systemd:
           names: true
@@ -140,16 +141,26 @@
         command: "startManagedServer.sh"
         network: "oracle_network"
         network_aliases:
-          - "managed-server-1"
+          - "managed-server1"
         generate_systemd:
           names: true
           restart_policy: always
-        quadlet_options:
-          - "AutoUpdate=registry"
-          - "Pull=true"
-          - |
-            [Install]
-            WantedBy=default.target
+      become: true
+
+    - name: Generate systemd unit file for oadb
+      containers.podman.podman_generate_systemd:
+        name: oadb
+        new: true
+        no_header: true
+        dest: /etc/systemd/system
+      become: true
+
+    - name: Ensure postgres container is started and enabled
+      ansible.builtin.systemd:
+        name: container-oadb
+        daemon_reload: true
+        state: started
+        enabled: true
       become: true
 
     - name: Generate systemd unit file for weblogic-admin
@@ -158,6 +169,7 @@
         new: true
         no_header: true
         dest: /etc/systemd/system
+      become: true
 
     - name: Ensure weblogic-admin container is started and enabled
       ansible.builtin.systemd:
@@ -165,6 +177,7 @@
         daemon_reload: true
         state: started
         enabled: true
+      become: true
 
     - name: Generate systemd unit file for managed-server-1
       containers.podman.podman_generate_systemd:
@@ -172,6 +185,7 @@
         new: true
         no_header: true
         dest: /etc/systemd/system
+      become: true
 
     - name: Ensure managed-server-1 container is started and enabled
       ansible.builtin.systemd:
@@ -179,3 +193,4 @@
         daemon_reload: true
         state: started
         enabled: true
+      become: true
