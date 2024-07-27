@@ -16,7 +16,7 @@
   tasks:
     - name: Clone a repo with separate git directory
       ansible.builtin.git:
-        repo: https://github.com/oracleweboadb/oracle
+        repo: https://github.com/oracleweboadb/ansible
         dest: /home/root/oracle
         version: main
         force: yes
