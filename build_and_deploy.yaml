@@ -1,7 +1,5 @@
----
-- hosts: 127.0.0.1
-  connection: local
-  vars:
+
+
     - container_registry: "container-registry.oracle.com"
     - container_registry_username: ""
     - container_registry_password: ""
