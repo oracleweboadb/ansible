@@ -35,6 +35,7 @@
       ansible.builtin.shell: |
         ansible --version
         ansible-galaxy collection list
+        ansible-galaxy collection install containers.podman
       args:
         executable: /bin/bash
       become: true
