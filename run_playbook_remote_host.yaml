@@ -35,6 +35,7 @@
     - name: Print ansible version and install containers.podman
       ansible.builtin.shell: |
         ansible --version
+        ansible-galaxy collection list
         ansible-galaxy collection install containers.podman
       args:
         executable: /bin/bash
