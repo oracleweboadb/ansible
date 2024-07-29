@@ -43,22 +43,18 @@
         force: yes
       become: true
 
-    - name: Recursively remove directory
-      ansible.builtin.file:
-        path: /home/root/oracle
-        state: absent
-      become: true
-
-    - name: Clone a repo with separate git directory
-      ansible.builtin.git:
-        repo: https://{{ github_username }}:{{ github_password }}@github.com/MTA-IT-Middleware-Platform-Technology/ordsapps
-        dest: /home/root/oracle
-        version: main
-        force: yes
-      environment:
-        http_proxy: nyc3.sme.zscaler.net:10560
-        https_proxy: nyc3.sme.zscaler.net:10560
-      become: true
+#    REMOVE WITH THE CLIENT REPOSITORY!
+#
+#    - name: Clone a repo with separate git directory
+#      ansible.builtin.git:
+#        repo: https://{{ github_username }}:{{ github_password }}@github.com/MTA-IT-Middleware-Platform-Technology/ordsapps
+#        dest: /home/root/oracle
+#        version: main
+#        force: yes
+#      environment:
+#        http_proxy: nyc3.sme.zscaler.net:10560
+#        https_proxy: nyc3.sme.zscaler.net:10560
+#      become: true
 
     - name: Build a autonomous database image
       ansible.builtin.shell: |
