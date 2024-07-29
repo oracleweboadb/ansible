@@ -19,6 +19,14 @@
         password={{ weblogic_password }}
         JAVA_OPTIONS=-Dweblogic.StdoutDebugEnabled=true
   tasks:
+    - name: Print hostname information
+      ansible.builtin.shell: |
+        hostname
+        ls /home/root
+      args:
+        executable: /bin/bash
+      become: true
+
     - name: Login to  and create containers/auth.json
       containers.podman.podman_login:
         username: "{{ container_registry_username }}"
